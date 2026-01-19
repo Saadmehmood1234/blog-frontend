@@ -1,26 +1,240 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Font families */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Merriweather', serif;
+
+  /* Light Mode Colors (converted from OKLCH to Hex) */
+  --color-background: #ffffff;          /* oklch(1 0 0) */
+  --color-foreground: #242424;          /* oklch(0.147 0.004 49.25) */
+  
+  --color-card: #ffffff;                /* oklch(1 0 0) */
+  --color-card-foreground: #242424;     /* oklch(0.147 0.004 49.25) */
+  
+  --color-popover: #ffffff;             /* oklch(1 0 0) */
+  --color-popover-foreground: #242424;  /* oklch(0.147 0.004 49.25) */
+  
+  --color-primary: #0F1729;             /* oklch(0.216 0.006 56.043) - Dark gray */
+  --color-primary-foreground: #fafafa;  /* oklch(0.985 0.001 106.423) - Off-white */
+  
+  --color-secondary: #f7f7f7;           /* oklch(0.97 0.001 106.424) - Light gray */
+  --color-secondary-foreground: #0F1729; /* oklch(0.216 0.006 56.043) - Dark gray */
+  
+  --color-muted: #f7f7f7;               /* oklch(0.97 0.001 106.424) - Light gray */
+  --color-muted-foreground: #8a8a8a;    /* oklch(0.553 0.013 58.071) - Medium gray */
+  
+  --color-accent: #f7f7f7;              /* oklch(0.97 0.001 106.424) - Light gray */
+  --color-accent-foreground: #0F1729;   /* oklch(0.216 0.006 56.043) - Dark gray */
+  
+  --color-destructive: #c2410c;         /* oklch(0.577 0.245 27.325) - Orange/red */
+  --color-destructive-foreground: #fafafa; /* oklch(0.985 0.001 106.423) - Off-white */
+  
+  --color-border: #e6e6e6;              /* oklch(0.923 0.003 48.717) - Light border */
+  --color-input: #e6e6e6;               /* oklch(0.923 0.003 48.717) - Light border */
+  --color-ring: #a8a8a8;                /* oklch(0.709 0.01 56.259) - Medium gray */
+
+  /* Border radius */
+  --radius-sm: calc(0.625rem - 4px);    /* 6px */
+  --radius-md: calc(0.625rem - 2px);    /* 8px */
+  --radius-lg: 0.625rem;                /* 10px */
+  --radius-xl: calc(0.625rem + 4px);    /* 14px */
+  --radius-2xl: calc(0.625rem + 8px);   /* 18px */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-200;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight;
+  }
+
+  /* Selection styles */
+  ::selection {
+    @apply bg-primary/20 text-primary;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/40 rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/60;
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-2 outline-ring outline-offset-2;
+}
+
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Blog content styles */
+  .blog-content {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .blog-content h1 {
+    @apply text-3xl md:text-4xl font-display font-bold mt-8 mb-4;
+  }
+
+  .blog-content h2 {
+    @apply text-2xl md:text-3xl font-display font-bold mt-6 mb-3;
+  }
+
+  .blog-content h3 {
+    @apply text-xl md:text-2xl font-display font-semibold mt-4 mb-2;
+  }
+  .blog-content h4 {
+    @apply text-lg md:text-2xl font-display font-semibold mt-4 mb-2;
+  }
+  .blog-content p {
+    @apply my-4 leading-relaxed;
+  }
+
+  .blog-content a {
+    @apply text-primary underline underline-offset-4 hover:text-primary/80 transition-colors;
+  }
+
+  .blog-content code {
+    @apply font-mono text-sm bg-muted px-1 py-0.5 rounded;
+  }
+
+  .blog-content pre {
+    @apply bg-muted p-4 rounded-lg overflow-x-auto my-4;
+  }
+
+  .blog-content blockquote {
+    @apply border-l-4 border-primary pl-4 italic my-4;
+  }
+
+  .blog-content ul, .blog-content ol {
+    @apply my-4 pl-6;
+  }
+
+  .blog-content li {
+    @apply my-2;
+  }
+
+  .blog-content img {
+    @apply rounded-xl my-6 shadow-lg;
+  }
+
+  /* Glass effect */
+  .glass-nav {
+    @apply backdrop-blur-md bg-background/80 border-b border-border;
+  }
+}
+
+
+/* styles/globals.css */
+.markdown-content {
+  --mobile-font-size: 0.9375rem;
+  --tablet-font-size: 1rem;
+  --desktop-font-size: 1.125rem;
+}
+
+@media (max-width: 640px) {
+  .markdown-content {
+    font-size: var(--mobile-font-size);
+  }
+  
+  .markdown-content h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+  }
+  
+  .markdown-content h2 {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+  
+  .markdown-content pre {
+    font-size: 0.8125rem;
+    margin: 1rem -1rem;
+    border-radius: 0;
+    padding: 1rem;
+  }
+  
+  .markdown-content img {
+    margin: 1rem -1rem;
+    border-radius: 0;
+    max-width: 100vw;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .markdown-content {
+    font-size: var(--tablet-font-size);
+  }
+}
+
+@media (min-width: 1025px) {
+  .markdown-content {
+    font-size: var(--desktop-font-size);
+  }
+}
+
+/* Ensure code blocks don't break layout */
+.markdown-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+  .markdown-content table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
