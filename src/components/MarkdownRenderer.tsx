@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import type { Components } from "react-markdown";
+import Image from "next/image";
 interface MarkdownRendererProps {
   content: string;
 }
@@ -50,22 +51,26 @@ const markdownComponents: Components = {
 
   /* -------- Images -------- */
 
-  img: ({ src, alt }) => (
+img: ({ src, alt }) => {
+  const imageSrc =
+    src instanceof Blob ? URL.createObjectURL(src) : src;
+
+  return (
     <figure className="my-10">
-      {" "}
-      <img
-        src={src || ""}
+      <Image
+        src={imageSrc || ""}
         alt={alt || ""}
-        className="rounded-xl shadow-lg mx-auto"
-      />{" "}
+        className="mx-auto rounded-xl shadow-lg max-w-full"
+      />
       {alt && (
         <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-          {" "}
-          {alt}{" "}
+          {alt}
         </figcaption>
-      )}{" "}
+      )}
     </figure>
-  ),
+  );
+},
+
 
   /* -------- Blockquote / Callouts -------- */
 
