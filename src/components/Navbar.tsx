@@ -2,7 +2,13 @@ import { fetchBlogCategory } from "@/lib/api";
 import NavbarClient from "./NavbarClient";
 
 export default async function Navbar() {
-  const categories = await fetchBlogCategory();
+  let categories;
+  try {
+    categories = await fetchBlogCategory();
+  } catch (error) {
+    // Handle API errors gracefully during build time
+    categories = { data: [] };
+  }
 
-  return <NavbarClient categories={categories?.data ?? []} />;
+  return <NavbarClient categories={categories.data ?? []} />;
 }

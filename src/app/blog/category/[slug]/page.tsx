@@ -10,6 +10,19 @@ export default async function CategoryPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
   const BlogData = await fetchBlogCategoryBySlug(slug);
 
+  if (!BlogData) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background font-sans">
+        <main className="grow container mx-auto px-6 max-w-7xl pt-12 pb-20">
+          <NoBlogs
+            title="Category not found"
+            description="The category you're looking for doesn't exist."
+          />
+        </main>
+      </div>
+    );
+  }
+
   const category = BlogData.data?.[0]?.category;
 
   const nonFeaturedBlogs = BlogData.data?.filter(

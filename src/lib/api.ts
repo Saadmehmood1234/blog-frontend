@@ -1,34 +1,48 @@
-import { QueryType, CreateBlogPayload } from "./Types";
+import { QueryType, CreateBlogPayload, ApiResponse, SubscribeResponse, BlogType, Category, DashboardStats } from "./Types";
+import safeJson from "./SafeJson";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchBlogs = async () => {
+export const fetchBlogs = async (): Promise<ApiResponse<BlogType[]>> => {
   const res = await fetch(`${API_URL}/api/v1/blogs`);
-  return res.json();
+  const result = await safeJson<ApiResponse<BlogType[]>>(res);
+  if (result) {
+    return result;
+  }
+  return { data: [] };
 };
 
-export const fetchBlogBySlug = async (slug: string) => {
+export const fetchBlogBySlug = async (slug: string): Promise<ApiResponse<BlogType> | null> => {
   const res = await fetch(`${API_URL}/api/v1/blogs/${slug}`);
-  return res.json();
+  return await safeJson<ApiResponse<BlogType>>(res);
 };
-export const fetchBlogCategory = async () => {
+
+export const fetchBlogCategory = async (): Promise<ApiResponse<Category[]>> => {
   const res = await fetch(`${API_URL}/api/v1/categories`, {
     next: { revalidate: 60 },
   });
-  return res.json();
+  const result = await safeJson<ApiResponse<Category[]>>(res);
+  if (result) {
+    return result;
+  }
+  return { data: [] };
 };
 
-export async function fetchBlogsByFilter(query: QueryType) {
+export async function fetchBlogsByFilter(query: QueryType): Promise<ApiResponse<BlogType[]>> {
   const res = await fetch(`${API_URL}/api/v1/blogs?${query}`);
-  return res.json();
+  const result = await safeJson<ApiResponse<BlogType[]>>(res);
+  if (result) {
+    return result;
+  }
+  return { data: [] };
 }
 
-export async function fetchBlogCategoryBySlug(slug: string) {
+export async function fetchBlogCategoryBySlug(slug: string): Promise<ApiResponse<BlogType[]> | null> {
   const res = await fetch(`${API_URL}/api/v1/categories/${slug}`);
-  return res.json();
+  return await safeJson<ApiResponse<BlogType[]>>(res);
 }
 
-export async function createSubscriber(email: string) {
+export async function createSubscriber(email: string): Promise<SubscribeResponse | null> {
   const res = await fetch(`${API_URL}/api/v1/subscribe`, {
     method: "POST",
     headers: {
@@ -37,15 +51,15 @@ export async function createSubscriber(email: string) {
     credentials: "include",
     body: JSON.stringify({ email: email }),
   });
-  return res.json();
+  return await safeJson<SubscribeResponse>(res);
 }
 
-export async function getSubscriber() {
+export async function getSubscriber(): Promise<SubscribeResponse | null> {
   const res = await fetch(`${API_URL}/api/v1/subscribe`);
-  return res.json();
+  return await safeJson<SubscribeResponse>(res);
 }
 
-export async function createBlogs(data: CreateBlogPayload) {
+export async function createBlogs(data: CreateBlogPayload): Promise<ApiResponse<BlogType> | null> {
   const res = await fetch(`${API_URL}/api/v1/blogs`, {
     method: "POST",
     headers: {
@@ -59,10 +73,10 @@ export async function createBlogs(data: CreateBlogPayload) {
     throw new Error("Failed to create blog");
   }
 
-  return res.json();
+  return await safeJson<ApiResponse<BlogType>>(res);
 }
 
-export async function fetchDashboardStats() {
+export async function fetchDashboardStats(): Promise<DashboardStats | null> {
   const res = await fetch(`${API_URL}/api/v1/analytics/dashboard-stats`, {
     cache: "no-store",
   });
@@ -71,5 +85,5 @@ export async function fetchDashboardStats() {
     throw new Error("Failed to fetch analytics");
   }
 
-  return res.json();
+  return await safeJson<DashboardStats>(res);
 }

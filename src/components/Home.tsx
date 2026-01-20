@@ -8,10 +8,10 @@ import NoBlogs from "./NoBlogs";
 
 export const Home = async () => {
   const blogs = await fetchBlogs();
-  const filteredBlog = blogs?.data.filter((blog: BlogType) => blog.isFeatured);
+  const filteredBlog = blogs.data.filter((blog: BlogType) => blog.isFeatured);
 
   const featuredBlog = filteredBlog?.[0];
-  const recentBlogs = blogs?.data.filter((blog: BlogType) => !blog.isFeatured);
+  const recentBlogs = blogs.data.filter((blog: BlogType) => !blog.isFeatured);
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans">

@@ -13,6 +13,20 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
   const { slug } = await params;
 
   const blog = await fetchBlogBySlug(slug);
+  
+  if (!blog) {
+    return (
+      <div className="min-h-screen flex flex-col font-sans">
+        <main className="grow container mx-auto px-6 max-w-7xl pt-8 pb-20">
+          <div className="text-center">
+            <h1 className="text-4xl font-display font-black mb-4">Blog not found</h1>
+            <p className="text-muted-foreground">The article you&re looking for doesn&t exist.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <main className="grow container mx-auto px-6 max-w-7xl pt-8 pb-20">

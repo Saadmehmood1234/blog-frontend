@@ -71,6 +71,37 @@ export interface CreateBlogPayload {
   slug: string;
 }
 
+// API Response Types
+export interface ApiResponse<T> {
+  data: T;
+  success?: boolean;
+  message?: string;
+}
+
+export interface SubscribeResponse {
+  success: boolean;
+  message: string;
+}
+
+// Analytics Types
+export interface TopBlog {
+  _id: string;
+  title: string;
+  views: number;
+}
+
+export interface DailyView {
+  _id: string;
+  views: number;
+}
+
+export interface DashboardStats {
+  totalBlogs: number;
+  totalViews: number;
+  topBlogs: TopBlog[];
+  dailyViews: DailyView[];
+}
+
 
 
 

@@ -16,7 +16,7 @@ export function Footer() {
         setLoading(true);
         const category = await fetchBlogCategory();
 
-        if (category?.data && Array.isArray(category.data)) {
+        if (category.data && Array.isArray(category.data)) {
           setCategories(category.data);
         } else {
           setCategories([]);

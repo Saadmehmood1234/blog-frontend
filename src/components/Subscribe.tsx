@@ -14,7 +14,7 @@ const Subscribe = ({ isModal, setIsModal }: SubscribePropType) => {
     try {
       setLoading(true);
       const data = await createSubscriber(email);
-      if (data.success) {
+      if (data?.success) {
         toast.success(data.message);
         setEmail("");
         if (setIsModal) {
@@ -22,7 +22,7 @@ const Subscribe = ({ isModal, setIsModal }: SubscribePropType) => {
         }
         setLoading(false);
       } else {
-        toast.error(data.message || "Subscription failed");
+        toast.error(data?.message || "Subscription failed");
         setLoading(false);
       }
     } catch (error) {

@@ -8,11 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-type DailyView = {
-  _id: string;
-  views: number;
-};
+import { DailyView } from "@/lib/Types";
 
 export default function DailyViewsChart({ data }: { data: DailyView[] }) {
   const chartData = [...data].reverse();
