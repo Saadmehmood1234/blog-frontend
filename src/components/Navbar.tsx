@@ -5,8 +5,7 @@ export default async function Navbar() {
   let categories;
   try {
     categories = await fetchBlogCategory();
-  } catch (error) {
-    // Handle API errors gracefully during build time
+  } catch {
     categories = { data: [] };
   }
 

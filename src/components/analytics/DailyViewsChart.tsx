@@ -15,7 +15,7 @@ export default function DailyViewsChart({ data }: { data: DailyView[] }) {
 
   return (
     <div className="rounded-xl border p-6 shadow-sm">
-      <h2 className="text-xl font-semibold mb-4">📊 Daily Views (Last 7 Days)</h2>
+      <h2 className="text-xl font-semibold mb-4">Daily Views (Last 7 Days)</h2>
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>

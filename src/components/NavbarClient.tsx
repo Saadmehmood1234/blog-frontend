@@ -1,6 +1,12 @@
 "use client";
 
-import { Menu, Search, PenSquare, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  Search,
+  PenSquare,
+  ChevronDown,
+  ChartSpline,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -23,6 +29,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BlogType, Category } from "@/lib/Types";
 import { useDebounce } from "@/hooks/useDebounce";
+import Image from "next/image";
 
 type Props = {
   categories: Category[];
@@ -47,9 +54,8 @@ export default function NavbarClient({ categories }: Props) {
           { signal: controller.signal },
         );
         const data = await res.json();
-        console.log(data);
         setSuggestions(data.data || []);
-      } catch (err) {
+      } catch {
         console.error("Search failed");
       }
     };
@@ -61,8 +67,11 @@ export default function NavbarClient({ categories }: Props) {
   return (
     <nav className="glass-nav w-full py-4 px-6 lg:px-12 flex justify-between items-center">
       <div className="flex items-center gap-8">
-        <Link href="/" className="text-xl cursor-pointer font-display font-black">
-          DailyTech.
+        <Link
+          href="/"
+          className="text-xl cursor-pointer font-display font-black"
+        >
+          <Image src="/logo.png" width={50} height={50} alt="DailyTech." />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 text-sm text-muted-foreground">
@@ -97,7 +106,12 @@ export default function NavbarClient({ categories }: Props) {
 
                 {categories.map((cat) => (
                   <DropdownMenuItem key={cat._id} asChild>
-                    <Link href={`/blog/category/${cat.slug}`} className="cursor-pointer">{cat.name}</Link>
+                    <Link
+                      href={`/blog/category/${cat.slug}`}
+                      className="cursor-pointer"
+                    >
+                      {cat.name}
+                    </Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -143,22 +157,37 @@ export default function NavbarClient({ categories }: Props) {
         </div>
 
         <Link href="/write">
-          <Button size="sm" className="hidden cursor-pointer sm:flex gap-2 rounded-full">
+          <Button
+            size="sm"
+            className="hidden cursor-pointer sm:flex gap-2 rounded-full"
+          >
             <PenSquare className="h-4 w-4" />
             Write
           </Button>
         </Link>
-
+        <Link href="/analytics">
+          <Button
+            size="sm"
+            className="hidden cursor-pointer sm:flex gap-2 rounded-full"
+          >
+            <ChartSpline className="h-4 w-4" />
+            Analytics
+          </Button>
+        </Link>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="cursor-pointer lg:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="cursor-pointer lg:hidden"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
           <SheetContent>
             <SheetHeader className="mb-6 text-left">
               <SheetTitle className="font-display font-bold text-2xl">
-                Scribe.
+                DailyTech.
               </SheetTitle>
             </SheetHeader>
             <div className="flex p-4 flex-col gap-4 text-lg">
@@ -184,6 +213,12 @@ export default function NavbarClient({ categories }: Props) {
                 <Button className="w-full rounded-full cursor-pointer gap-2">
                   <PenSquare className="h-4 w-4" />
                   Start Writing
+                </Button>
+              </Link>
+              <Link href="/analytics">
+                <Button className="w-full rounded-full cursor-pointer gap-2">
+                  <ChartSpline className="h-4 w-4" />
+                  Analytics
                 </Button>
               </Link>
             </div>

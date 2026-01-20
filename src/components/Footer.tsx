@@ -6,16 +6,18 @@ import Link from "next/link";
 import Subscribe from "./Subscribe";
 import { useEffect, useState } from "react";
 import Loading from "@/app/blog/loading";
+import Image from "next/image";
 
 export function Footer() {
   const [categories, setCategories] = useState<Category[] | null>([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    
     async function fetchData() {
       try {
         setLoading(true);
         const category = await fetchBlogCategory();
-
         if (category.data && Array.isArray(category.data)) {
           setCategories(category.data);
         } else {
@@ -42,12 +44,14 @@ export function Footer() {
           <div className="col-span-1 md:col-span-1">
             <Link
               href="/"
-              className="text-2xl font-display font-black tracking-tighter mb-4 block"
+              className="text-xl cursor-pointer font-display font-black"
             >
-              DailyTech.
+              <Image src="/logo.png" width={60} height={60} alt="DailyTech." />
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              A modern publishing platform for thoughtful writers and readers.
+
+            <p className="text-sm pl-1 text-muted-foreground leading-relaxed">
+              Explore the latest insights, trends, and articles on artificial
+              intelligence, digital technologies, and emerging tech innovations.
             </p>
           </div>
 

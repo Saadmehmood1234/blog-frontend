@@ -25,6 +25,7 @@ export const fetchBlogCategory = async (): Promise<ApiResponse<Category[]>> => {
   if (result) {
     return result;
   }
+  
   return { data: [] };
 };
 

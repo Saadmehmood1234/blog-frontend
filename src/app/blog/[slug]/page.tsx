@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { fetchBlogBySlug } from "@/lib/api";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import NoBlogs from "@/components/NoBlogs";
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -19,9 +20,10 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
       <div className="min-h-screen flex flex-col font-sans">
         <main className="grow container mx-auto px-6 max-w-7xl pt-8 pb-20">
           <div className="text-center">
-            <h1 className="text-4xl font-display font-black mb-4">Blog not found</h1>
-            <p className="text-muted-foreground">The article you&re looking for doesn&t exist.</p>
+            <h1 className="text-4xl font-display font-black mb-4"></h1>
+            <p className="text-muted-foreground"></p>
           </div>
+          <NoBlogs title="Blog not found" description="The article you&re looking for doesn&t exist."/>
         </main>
       </div>
     );
