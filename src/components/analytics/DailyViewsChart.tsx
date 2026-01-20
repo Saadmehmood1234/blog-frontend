@@ -1,45 +1,36 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { DailyView } from "@/lib/Types";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { DailyView } from "@/lib/Types";
 
 export default function DailyViewsChart({ data }: { data: DailyView[] }) {
   const chartData = [...data].reverse();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>📊 Daily Views</CardTitle>
-        <CardDescription>Daily views for the last 7 days.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={chartData}>
-            <XAxis
-              dataKey="_id"
-              stroke="#888888"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
+    <div className="rounded-xl border p-6 shadow-sm">
+      <h2 className="text-xl font-semibold mb-4">📊 Daily Views (Last 7 Days)</h2>
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData}>
+            <XAxis dataKey="_id" />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="views"
+              strokeWidth={2}
+              dot={{ r: 4 }}
             />
-            <YAxis
-              stroke="#888888"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `${value}`}
-            />
-            <Bar dataKey="views" fill="#8884d8" radius={[4, 4, 0, 0]} />
-          </BarChart>
+          </LineChart>
         </ResponsiveContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

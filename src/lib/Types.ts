@@ -88,8 +88,6 @@ export interface TopBlog {
   _id: string;
   title: string;
   views: number;
-  slug: string;
-  category: Category;
 }
 
 export interface DailyView {
@@ -100,7 +98,6 @@ export interface DailyView {
 export interface DashboardStats {
   totalBlogs: number;
   totalViews: number;
-  totalSubscribers: number;
   topBlogs: TopBlog[];
   dailyViews: DailyView[];
 }
