@@ -65,12 +65,12 @@ export default function NavbarClient({ categories }: Props) {
           DailyTech.
         </Link>
 
-        <div className="hidden cursor-pointer lg:flex items-center gap-6 text-sm text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-6 text-sm text-muted-foreground">
           <Link href="/" passHref>
             <Button
               variant="ghost"
               size="sm"
-              className={`px-2 ${
+              className={`px-2 cursor-pointer  ${
                 location === "/" ? "text-foreground" : "text-muted-foreground"
               }`}
             >
@@ -143,7 +143,7 @@ export default function NavbarClient({ categories }: Props) {
         </div>
 
         <Link href="/write">
-          <Button size="sm" className="hidden sm:flex gap-2 rounded-full">
+          <Button size="sm" className="hidden cursor-pointer sm:flex gap-2 rounded-full">
             <PenSquare className="h-4 w-4" />
             Write
           </Button>
@@ -151,7 +151,7 @@ export default function NavbarClient({ categories }: Props) {
 
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden">
+            <Button variant="ghost" size="icon" className="cursor-pointer lg:hidden">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -165,7 +165,7 @@ export default function NavbarClient({ categories }: Props) {
               <Link
                 href="/"
                 onClick={() => setIsOpen(false)}
-                className="font-medium hover:text-primary"
+                className="font-medium cursor-pointer hover:text-primary"
               >
                 Home
               </Link>
@@ -174,14 +174,14 @@ export default function NavbarClient({ categories }: Props) {
                   key={cat._id}
                   href={`/blog/category/${cat.slug}`}
                   onClick={() => setIsOpen(false)}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
                 >
                   {cat.name}
                 </Link>
               ))}
               <div className="h-px bg-border my-2" />
               <Link href="/write" onClick={() => setIsOpen(false)}>
-                <Button className="w-full rounded-full gap-2">
+                <Button className="w-full rounded-full cursor-pointer gap-2">
                   <PenSquare className="h-4 w-4" />
                   Start Writing
                 </Button>

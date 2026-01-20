@@ -1,240 +1,125 @@
-// components/markdown/MarkdownRenderer.tsx
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
-import { Components } from 'react-markdown';
-import { Heading } from './components/markdown/Heading';
-import { CodeBlock } from './components/markdown/CodeBlock';
-import { MarkdownImage } from './components/markdown/Image';
-import { Link } from './components/markdown/Link';
-import { Callout } from './components/markdown/Callout';
-import { Table } from './components/markdown/Table';
-import { ImageProps,isValidCalloutType } from './components/markdown/types';
-
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import type { Components } from "react-markdown";
 interface MarkdownRendererProps {
   content: string;
 }
-
-// Custom remark plugin for custom components
-const remarkCustomComponents = () => {
-  return (tree: unknown) => {
-    // Process custom component syntax
-    if (typeof tree === 'object' && tree !== null) {
-      // Process the AST tree here
-    }
-  };
-};
-
 const markdownComponents: Components = {
-  // Headings - pass all props including HTML attributes
-  h1: (props) => <Heading level={1} {...props} />,
-  h2: (props) => <Heading level={2} {...props} />,
-  h3: (props) => <Heading level={3} {...props} />,
-  h4: (props) => <Heading level={4} {...props} />,
-  h5: (props) => <Heading level={5} {...props} />,
-  h6: (props) => <Heading level={6} {...props} />,
+  h1: ({ children }) => (
+    <h1 className="mt-12 mb-6 text-4xl font-display font-black">
+      {" "}
+      {children}{" "}
+    </h1>
+  ),
+  h2: ({ children }) => (
+    <h2 className="mt-12 mb-4 text-3xl font-display font-bold"> {children} </h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="mt-8 mb-3 text-2xl font-display font-semibold">
+      {" "}
+      {children}{" "}
+    </h3>
+  ),
+  p: ({ children }) => (
+    <p className="mb-6 leading-relaxed text-foreground/90"> {children} </p>
+  ),
 
-  // Paragraph
-  p: ({ children, ...props }) => (
-    <p 
-      className="mb-4 md:mb-6 leading-relaxed text-foreground/90 text-sm md:text-base"
-      {...props}
+  /* -------- Links -------- */
+  a: ({ href, children }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-primary underline underline-offset-4 hover:opacity-80"
     >
-      {children}
-    </p>
+      {" "}
+      {children}{" "}
+    </a>
   ),
 
-  // Lists
-  ul: ({ children, ...props }) => (
-    <ul 
-      className="list-disc pl-5 md:pl-6 mb-4 md:mb-6 space-y-2 md:space-y-3"
-      {...props}
-    >
-      {children}
-    </ul>
+  /* -------- Lists -------- */
+
+  ul: ({ children }) => (
+    <ul className="list-disc pl-6 mb-6 space-y-2">{children}</ul>
   ),
-  ol: ({ children, ...props }) => (
-    <ol 
-      className="list-decimal pl-5 md:pl-6 mb-4 md:mb-6 space-y-2 md:space-y-3"
-      {...props}
-    >
-      {children}
-    </ol>
-  ),
-  li: ({ children, ...props }) => (
-    <li className="pl-2 text-sm md:text-base" {...props}>
-      {children}
-    </li>
+  ol: ({ children }) => (
+    <ol className="list-decimal pl-6 mb-6 space-y-2">{children}</ol>
   ),
 
-  // Link
-  a: (props) => <Link {...props} />,
+  /* -------- Images -------- */
 
-  // Image
-// In your markdownComponents in MarkdownRenderer.tsx
-img: (props) => {
-  // Create a filtered object without the node property
-  const filteredProps: Record<string, unknown> = { ...props };
-  delete filteredProps.node;
-  
-  return <MarkdownImage {...(filteredProps as ImageProps)} />;
-},
+  img: ({ src, alt }) => (
+    <figure className="my-10">
+      {" "}
+      <img
+        src={src || ""}
+        alt={alt || ""}
+        className="rounded-xl shadow-lg mx-auto"
+      />{" "}
+      {alt && (
+        <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+          {" "}
+          {alt}{" "}
+        </figcaption>
+      )}{" "}
+    </figure>
+  ),
 
-  // Code
-  code: ({ className, children, ...props }) => {
-    const classString = className || '';
-    const match = /language-(\w+)/.exec(classString);
-    const language = match?.[1];
-    const isInline = !classString.includes('language-');
+  /* -------- Blockquote / Callouts -------- */
 
-    return (
-      <CodeBlock
-        className={classString}
-        inline={isInline}
-        language={language}
-        {...props}
-      >
-        {String(children)}
-      </CodeBlock>
-    );
-  },
+  blockquote: ({ children }) => (
+    <div className="my-8 rounded-xl border-l-4 border-primary bg-primary/5 px-6 py-4">
+      {" "}
+      <div className="text-sm uppercase tracking-wide text-primary mb-2">
+        {" "}
+        Note{" "}
+      </div>{" "}
+      <div className="text-foreground/90">{children}</div>{" "}
+    </div>
+  ),
 
-  // Blockquote (Custom Callout)
-  blockquote: ({ children, ...props }) => {
-    const content = String(children);
-    const calloutMatch = content.match(/^:::(\w+)(?:\[(.*?)\])?\n/);
-    
-    if (calloutMatch) {
-      const type = calloutMatch[1];
-      const title = calloutMatch[2];
-      const calloutContent = content.replace(calloutMatch[0], '').replace(/\n:::$/, '');
-      
-      // Validate callout type
-      const validType = isValidCalloutType(type) ? type : 'note';
-      
+  /* -------- Code -------- */
+
+  code({ className, children }) {
+    const language = className?.replace("language-", "");
+
+    // Inline code
+    if (!language) {
       return (
-        <Callout type={validType} title={title} {...props}>
-          {calloutContent}
-        </Callout>
+        <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
+          {children}
+        </code>
       );
     }
 
-    // Default blockquote
+    // Code block
     return (
-      <blockquote 
-        className="my-4 md:my-6 pl-4 md:pl-6 border-l-4 border-border italic"
-        {...props}
-      >
-        {children}
-      </blockquote>
+      <div className="relative my-8">
+        {language && (
+          <span className="absolute top-2 right-3 text-xs text-muted-foreground">
+            {language.toUpperCase()}
+          </span>
+        )}
+        <pre className="bg-[#0d1117] text-white p-5 rounded-xl overflow-x-auto text-sm shadow-lg">
+          <code className={className}>{children}</code>
+        </pre>
+      </div>
     );
   },
-
-  // Table components
-  table: (props) => <Table {...props} />,
-  thead: ({ children, ...props }) => (
-    <thead className="bg-secondary/30" {...props}>
-      {children}
-    </thead>
-  ),
-  tbody: (props) => <tbody {...props} />,
-  tr: ({ children, ...props }) => (
-    <tr 
-      className="even:bg-secondary/20 hover:bg-secondary/30 transition-colors"
-      {...props}
-    >
-      {children}
-    </tr>
-  ),
-  th: ({ children, ...props }) => (
-    <th 
-      className="px-3 md:px-4 py-2 md:py-3 border border-border font-semibold"
-      {...props}
-    >
-      {children}
-    </th>
-  ),
-  td: ({ children, ...props }) => (
-    <td 
-      className="px-3 md:px-4 py-2 md:py-3 border border-border"
-      {...props}
-    >
-      {children}
-    </td>
-  ),
 };
 
 export const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   return (
-    <div className="markdown-content max-w-none">
-      <div className="prose-sm md:prose-base lg:prose-lg prose-headings:font-display 
-                    prose-headings:font-bold prose-a:text-primary 
-                    prose-blockquote:border-primary/50 prose-blockquote:bg-primary/5
-                    prose-table:border prose-table:border-border
-                    prose-th:bg-secondary/30 prose-img:rounded-lg
-                    prose-pre:bg-transparent max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm, remarkCustomComponents]}
-          rehypePlugins={[rehypeHighlight]}
-          components={markdownComponents}
-        >
-          {content}
-        </ReactMarkdown>
-      </div>
-      
-      {/* Mobile responsive adjustments */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .markdown-content {
-            font-size: 0.9375rem;
-            line-height: 1.7;
-          }
-          
-          .markdown-content pre {
-            font-size: 0.8125rem;
-            padding: 0.75rem;
-          }
-          
-          .markdown-content table {
-            display: block;
-          }
-          
-          .markdown-content table tr {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-          }
-          
-          .markdown-content table td,
-          .markdown-content table th {
-            display: block;
-            padding: 0.375rem 0;
-            border: none;
-            text-align: left;
-          }
-          
-          .markdown-content table td::before,
-          .markdown-content table th::before {
-            content: attr(data-label);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 0.25rem;
-            color: var(--muted-foreground);
-          }
-        }
-      `}</style>
+    <div className="prose prose-lg md:prose-xl max-w-none">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight]}
+        components={markdownComponents}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
-};
-
-export {
-  Heading,
-  CodeBlock,
-  MarkdownImage,
-  Link,
-  Callout,
-  Table,
 };
