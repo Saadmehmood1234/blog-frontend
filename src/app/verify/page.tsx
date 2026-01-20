@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import toast from "react-hot-toast";
 
-const VerifyPage = () => {
+const VerifyContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
@@ -25,7 +25,16 @@ const VerifyPage = () => {
           method: "GET",
         });
 
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          toast.error("Invalid response from server.");
+          setVerified(false);
+          setLoading(false);
+          return;
+        }
 
         if (!data.success) {
           toast.error(data.message || "Verification failed.");
@@ -85,6 +94,20 @@ const VerifyPage = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const VerifyPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 p-6">
+        <div className="bg-white shadow-md rounded-lg p-8 max-w-md text-center">
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    }>
+      <VerifyContent />
+    </Suspense>
   );
 };
 
