@@ -13,18 +13,18 @@ const Subscribe = ({ isModal, setIsModal }: SubscribePropType) => {
   const handleSubscribe = async (email: string) => {
     try {
       setLoading(true);
-      const data = await createSubscriber(email);
-      if (data.success) {
-        toast.success(data.message);
-        setEmail("");
-        if (setIsModal) {
-          setIsModal(false);
-        }
-        setLoading(false);
-      } else {
-        toast.error(data.message || "Subscription failed");
-        setLoading(false);
-      }
+      // const data = await createSubscriber(email);
+      // if (data.success) {
+      //   toast.success(data.message);
+      //   setEmail("");
+      //   if (setIsModal) {
+      //     setIsModal(false);
+      //   }
+      //   setLoading(false);
+      // } else {
+      //   toast.error(data.message || "Subscription failed");
+      //   setLoading(false);
+      // }
     } catch (error) {
       console.error("Subscribe error:", error);
       toast.error("Something went wrong. Please try again.");
