@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { fetchBlogBySlug } from "@/lib/api";
-import { BlogContent } from "@/components/BlogContent";
+import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -80,7 +80,7 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
                 className="w-full h-full object-cover"
               />
             </div>
-            <BlogContent content={blog.data.content} />
+            <MarkdownRenderer content={blog.data.content}/>
             {blog.data.tags && blog.data.tags.length > 0 && (
               <div className="mt-12 pt-8 border-t border-border">
                 <h4 className="font-bold text-sm uppercase tracking-wide text-muted-foreground mb-4">

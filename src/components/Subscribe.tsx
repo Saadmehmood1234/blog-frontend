@@ -13,18 +13,18 @@ const Subscribe = ({ isModal, setIsModal }: SubscribePropType) => {
   const handleSubscribe = async (email: string) => {
     try {
       setLoading(true);
-      // const data = await createSubscriber(email);
-      // if (data.success) {
-      //   toast.success(data.message);
-      //   setEmail("");
-      //   if (setIsModal) {
-      //     setIsModal(false);
-      //   }
-      //   setLoading(false);
-      // } else {
-      //   toast.error(data.message || "Subscription failed");
-      //   setLoading(false);
-      // }
+      const data = await createSubscriber(email);
+      if (data.success) {
+        toast.success(data.message);
+        setEmail("");
+        if (setIsModal) {
+          setIsModal(false);
+        }
+        setLoading(false);
+      } else {
+        toast.error(data.message || "Subscription failed");
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Subscribe error:", error);
       toast.error("Something went wrong. Please try again.");
@@ -37,7 +37,7 @@ const Subscribe = ({ isModal, setIsModal }: SubscribePropType) => {
         <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
           <button
             onClick={() => setIsModal(false)}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            className="absolute top-2 right-6 cursor-pointer text-gray-500 hover:text-gray-700"
           >
             ✕
           </button>

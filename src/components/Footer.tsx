@@ -1,12 +1,40 @@
+"use client";
 import { fetchBlogCategory } from "@/lib/api";
 import { Category } from "@/lib/Types";
 import { Github, InstagramIcon, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
-import SubscribeWrapper from "./SubscribeWrapper";
+import Subscribe from "./Subscribe";
+import { useEffect, useState } from "react";
+import Loading from "@/app/blog/loading";
 
-export async function Footer() {
-  const category = await fetchBlogCategory();
-  const categories = category.data;
+export function Footer() {
+  const [categories, setCategories] = useState<Category[] | null>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const category = await fetchBlogCategory();
+
+        if (category?.data && Array.isArray(category.data)) {
+          setCategories(category.data);
+        } else {
+          setCategories([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <footer className="border-t border-border mt-20 py-12 bg-secondary/20">
       <div className="container mx-auto px-6 max-w-7xl">
@@ -67,7 +95,7 @@ export async function Footer() {
             </ul>
           </div>
 
-          <SubscribeWrapper />
+          <Subscribe isModal={false} />
         </div>
 
         <div className="border-t border-border/50 pt-8 flex flex-col md:flex-row justify-between items-center text-md text-muted-foreground">

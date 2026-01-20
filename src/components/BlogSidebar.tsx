@@ -2,17 +2,19 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { fetchBlogCategory, fetchBlogs } from "@/lib/api";
 import { BlogType, Category } from "@/lib/Types";
-import SubscribeWrapper from "./SusbscribeCardWrapper";
+import SubscribeCard from "./SubscribeCard";
 
 export async function BlogSidebar() {
   const blogs = await fetchBlogCategory();
   const Popular = await fetchBlogs();
-  const popularBlogs = Popular.data
-    .filter((blog: BlogType) => blog.views > 0 && !blog.isFeatured)
-    .sort((a: BlogType, b: BlogType) => b.views - a.views)
-    .slice(0, 3);
 
-  const categories = blogs.data;
+  const categories = blogs?.data ?? [];
+  const popularBlogs =
+    Popular?.data
+      ?.filter((blog: BlogType) => blog.views > 0 && !blog.isFeatured)
+      .sort((a: BlogType, b: BlogType) => b.views - a.views)
+      .slice(0, 3) ?? [];
+
   return (
     <aside className="space-y-10 sticky top-24">
       <div className="bg-card rounded-xl p-6 border border-border/50 shadow-sm">
@@ -61,7 +63,7 @@ export async function BlogSidebar() {
         </div>
       </div>
 
-      <SubscribeWrapper />
+      <SubscribeCard />
     </aside>
   );
 }
