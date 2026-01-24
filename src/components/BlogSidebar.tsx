@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { fetchBlogCategory, fetchBlogs } from "@/lib/api";
-import { BlogType, Category } from "@/lib/Types";
+import { BlogType,Category } from "@/types/Types";
 import SubscribeCard from "./SubscribeCard";
 
 export async function BlogSidebar() {

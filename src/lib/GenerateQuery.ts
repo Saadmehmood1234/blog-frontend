@@ -1,4 +1,4 @@
-import { QueryType } from "./Types";
+import { QueryType } from "@/types/Types";
 
 export default function generateQuery(filter: QueryType) {
   const params = new URLSearchParams();

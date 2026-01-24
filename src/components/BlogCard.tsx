@@ -2,7 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { BlogType } from "@/lib/Types";
+import { BlogType } from "@/types/Types";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 

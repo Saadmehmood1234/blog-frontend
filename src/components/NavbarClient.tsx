@@ -25,7 +25,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BlogType, Category } from "@/lib/Types";
+import { BlogType,Category } from "@/types/Types";
 import { useDebounce } from "@/hooks/useDebounce";
 import Image from "next/image";
 

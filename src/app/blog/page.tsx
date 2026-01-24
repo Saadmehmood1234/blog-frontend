@@ -1,6 +1,6 @@
 import { BlogCard } from "@/components/BlogCard";
 import { fetchBlogCategory, fetchBlogs } from "@/lib/api";
-import { BlogType } from "@/lib/Types";
+import { BlogType } from "@/types/Types";
 // import Loading from "./loading";
 // import { fetchBlogCategory, fetchBlogs, fetchBlogsByFilter } from "@/lib/api";
 // import generateQuery from "@/lib/GenerateQuery";
