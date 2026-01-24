@@ -1,4 +1,11 @@
-import { QueryType, CreateBlogPayload, ApiResponse, SubscribeResponse, BlogType, Category, DashboardStats } from "./Types";
+import {
+  QueryType,
+  ApiResponse,
+  SubscribeResponse,
+  BlogType,
+  Category,
+  DashboardStats,
+} from "./Types";
 import safeJson from "./SafeJson";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -12,7 +19,9 @@ export const fetchBlogs = async (): Promise<ApiResponse<BlogType[]>> => {
   return { data: [] };
 };
 
-export const fetchBlogBySlug = async (slug: string): Promise<ApiResponse<BlogType> | null> => {
+export const fetchBlogBySlug = async (
+  slug: string,
+): Promise<ApiResponse<BlogType> | null> => {
   const res = await fetch(`${API_URL}/api/v1/blogs/${slug}`);
   return await safeJson<ApiResponse<BlogType>>(res);
 };
@@ -25,11 +34,13 @@ export const fetchBlogCategory = async (): Promise<ApiResponse<Category[]>> => {
   if (result) {
     return result;
   }
-  
+
   return { data: [] };
 };
 
-export async function fetchBlogsByFilter(query: QueryType): Promise<ApiResponse<BlogType[]>> {
+export async function fetchBlogsByFilter(
+  query: QueryType,
+): Promise<ApiResponse<BlogType[]>> {
   const res = await fetch(`${API_URL}/api/v1/blogs?${query}`);
   const result = await safeJson<ApiResponse<BlogType[]>>(res);
   if (result) {
@@ -38,12 +49,16 @@ export async function fetchBlogsByFilter(query: QueryType): Promise<ApiResponse<
   return { data: [] };
 }
 
-export async function fetchBlogCategoryBySlug(slug: string): Promise<ApiResponse<BlogType[]> | null> {
+export async function fetchBlogCategoryBySlug(
+  slug: string,
+): Promise<ApiResponse<BlogType[]> | null> {
   const res = await fetch(`${API_URL}/api/v1/categories/${slug}`);
   return await safeJson<ApiResponse<BlogType[]>>(res);
 }
 
-export async function createSubscriber(email: string): Promise<SubscribeResponse | null> {
+export async function createSubscriber(
+  email: string,
+): Promise<SubscribeResponse | null> {
   const res = await fetch(`${API_URL}/api/v1/subscribe`, {
     method: "POST",
     headers: {
@@ -60,14 +75,17 @@ export async function getSubscriber(): Promise<SubscribeResponse | null> {
   return await safeJson<SubscribeResponse>(res);
 }
 
-export async function createBlogs(data: CreateBlogPayload): Promise<ApiResponse<BlogType> | null> {
+export async function createBlogs(
+  data: FormData,
+): Promise<ApiResponse<BlogType> | null> {
+   for (const [key, value] of data.entries()) {
+    console.log(key, value);
+  }
+
   const res = await fetch(`${API_URL}/api/v1/blogs`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     credentials: "include",
-    body: JSON.stringify(data),
+    body: data,
   });
 
   if (!res.ok) {

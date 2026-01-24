@@ -21,55 +21,52 @@ import { createBlogs, fetchBlogCategory } from "@/lib/api";
 export default function Write() {
   const [categories, setCategories] = useState<Category[] | null>([]);
   const [loading, setLaoding] = useState(false);
+  const [featuredImage, setFeatureImage] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     excerpt: "",
     categoryId: "",
     tags: "",
-    featuredImage: "",
     seoDescription: "",
     seoTitle: "",
     readTime: 0,
   });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLaoding(true);
 
     try {
-      if (!formData.title || !formData.content || !formData.categoryId) {
-        toast.error("Please fill in all required fields.");
-        return;
+      const form = new FormData();
+
+      form.append("title", formData.title);
+      form.append("content", formData.content);
+      form.append("excerpt", formData.excerpt);
+      form.append("category", formData.categoryId);
+      form.append("tags", formData.tags);
+      form.append("seoTitle", formData.seoTitle);
+      form.append("seoDescription", formData.seoDescription);
+      form.append("slug", generateSlug(formData.title));
+      form.append("readTime", String(calculateReadTime(formData.content)));
+
+      if (featuredImage) {
+        form.append("image", featuredImage);
       }
 
-      const payload = {
-        title: formData.title,
-        content: formData.content,
-        excerpt: formData.excerpt,
-        category: formData.categoryId,
-        tags: formData.tags.split(",").map((t) => t.trim()),
-        featuredImage: formData.featuredImage,
-        seoTitle: formData.seoTitle,
-        seoDescription: formData.seoDescription,
-        slug: generateSlug(formData.title),
-        readTime: calculateReadTime(formData.content),
-      };
-
-      await createBlogs(payload);
-      toast.success("Blog published successfully!");
+      await createBlogs(form);
       setFormData({
         title: "",
         content: "",
         excerpt: "",
         categoryId: "",
         tags: "",
-        featuredImage: "",
         seoDescription: "",
         seoTitle: "",
         readTime: 0,
       });
-    } catch (error) {
+      setFeatureImage(null);
+      toast.success("Blog published successfully!");
+    } catch {
       toast.error("Failed to publish blog");
     } finally {
       setLaoding(false);
@@ -146,7 +143,7 @@ export default function Write() {
             </div>
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="image">Cover Image URL (optional)</Label>
             <Input
               id="image"
@@ -155,6 +152,23 @@ export default function Write() {
               onChange={(e) =>
                 setFormData({ ...formData, featuredImage: e.target.value })
               }
+            />
+            <p className="text-xs text-muted-foreground">
+              Use a landscape image for best results.
+            </p>
+          </div> */}
+          <div className="space-y-2">
+            <Label htmlFor="image">Upload Cover Image</Label>
+            <Input
+              id="image"
+              type="file"
+              placeholder="https://images.unsplash.com/..."
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  setFeatureImage(e.target.files[0]);
+                }
+              }}
             />
             <p className="text-xs text-muted-foreground">
               Use a landscape image for best results.

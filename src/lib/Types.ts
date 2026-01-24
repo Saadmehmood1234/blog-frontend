@@ -64,7 +64,7 @@ export interface CreateBlogPayload {
   excerpt: string;
   category: string;
   tags: string[];
-  featuredImage?: string;
+  featuredImage?: File | null;
   seoTitle?: string;
   seoDescription?: string;
   readTime: number;
