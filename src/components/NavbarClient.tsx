@@ -3,9 +3,7 @@
 import {
   Menu,
   Search,
-  PenSquare,
   ChevronDown,
-  ChartSpline,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -65,7 +63,7 @@ export default function NavbarClient({ categories }: Props) {
   }, [debouncedQuery]);
 
   return (
-    <nav className="glass-nav w-full py-4 px-6 lg:px-12 flex justify-between items-center">
+    <nav className="glass-nav 2xl:px-0 border-b border-border w-full max-w-7xl py-4 px-6 flex justify-between items-center">
       <div className="flex items-center gap-8">
         <Link
           href="/"
@@ -156,7 +154,7 @@ export default function NavbarClient({ categories }: Props) {
           )}
         </div>
 
-        <Link href="/write">
+        {/* <Link href="/write">
           <Button
             size="sm"
             className="hidden cursor-pointer sm:flex gap-2 rounded-full"
@@ -173,7 +171,7 @@ export default function NavbarClient({ categories }: Props) {
             <ChartSpline className="h-4 w-4" />
             Analytics
           </Button>
-        </Link>
+        </Link> */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button
@@ -209,7 +207,7 @@ export default function NavbarClient({ categories }: Props) {
                 </Link>
               ))}
               <div className="h-px bg-border my-2" />
-              <Link href="/write" onClick={() => setIsOpen(false)}>
+              {/* <Link href="/write" onClick={() => setIsOpen(false)}>
                 <Button className="w-full rounded-full cursor-pointer gap-2">
                   <PenSquare className="h-4 w-4" />
                   Start Writing
@@ -220,7 +218,7 @@ export default function NavbarClient({ categories }: Props) {
                   <ChartSpline className="h-4 w-4" />
                   Analytics
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </SheetContent>
         </Sheet>

@@ -1,6 +1,6 @@
 const Careers = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6 2xl:px-0">
       <h1 className="text-3xl font-bold mb-4">Careers at DailyTech</h1>
       <p className="mb-4">
         Join our team! DailyTech is looking for talented individuals passionate about technology and content creation.

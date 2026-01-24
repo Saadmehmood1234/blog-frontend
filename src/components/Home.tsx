@@ -2,7 +2,7 @@ import { BlogCard } from "@/components/BlogCard";
 import { BlogSidebar } from "@/components/BlogSidebar";
 import { Button } from "@/components/ui/button";
 import { fetchBlogs } from "@/lib/api";
-import { BlogType } from "@/lib/Types";
+import { BlogType } from "@/types/Types";
 import Link from "next/link";
 import NoBlogs from "./NoBlogs";
 
@@ -15,7 +15,7 @@ export const Home = async () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans">
-      <main className="grow container mx-auto px-6 max-w-7xl pt-10 pb-20">
+      <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-10 pb-20">
         {featuredBlog && (
           <section className="mb-20">
             <div key={featuredBlog._id}>

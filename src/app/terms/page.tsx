@@ -1,6 +1,6 @@
 const TermsOfService = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6 2xl:px-0">
       <h1 className="text-3xl font-bold mb-4">DailyTech Terms of Service</h1>
       <p className="mb-4">
         Welcome to DailyTech. By accessing or using our website, you agree to the following terms:

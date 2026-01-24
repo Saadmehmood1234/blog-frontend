@@ -1,15 +1,13 @@
-
 export interface CustomError {
   message: string;
   statusCode: number;
 }
-export interface View{
+export interface View {
   blog: string;
   ip: string;
   userAgent: string;
   createdAt: Date;
 }
-
 
 export interface User {
   name: string;
@@ -17,7 +15,6 @@ export interface User {
   password: string;
   role: "admin";
 }
-
 
 // lib/types.ts
 export interface Category {
@@ -35,24 +32,23 @@ export interface BlogType {
   category: Category;
   tags: string[];
   views: number;
-  isFeatured:boolean;
+  isFeatured: boolean;
   createdAt: string;
   readTime: number;
 }
 
-export interface QueryType{
-  title?:string;
-  category?:string;
-  isFeatured?:boolean;
-  tags?:string[];
-  readTime?:string;
-  createdAt?:string;
-  page?:number
+export interface QueryType {
+  title?: string;
+  category?: string;
+  isFeatured?: boolean;
+  tags?: string[];
+  readTime?: string;
+  createdAt?: string;
+  page?: number;
 }
 
-
 export interface Category {
-  _id:string
+  _id: string;
   name: string;
   slug: string;
   description?: string;
@@ -102,9 +98,20 @@ export interface DashboardStats {
   dailyViews: DailyView[];
 }
 
+export interface ResponseType {
+  message: string;
+  success: boolean;
+}
 
+export interface Subscriber {
+  email: string;
+  isVerified?: boolean;
+  createdAt?: string;
+}
 
-
-
-
+export interface GetSubscriberResponse {
+  success: boolean;
+  message: string;
+  data: Subscriber[];
+}
 

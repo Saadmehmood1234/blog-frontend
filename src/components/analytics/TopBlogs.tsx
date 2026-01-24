@@ -1,4 +1,4 @@
-import { TopBlog } from "@/lib/Types";
+import { TopBlog } from "@/types/Types";
 
 export default function TopBlogs({ blogs }: { blogs: TopBlog[] }) {
   return (

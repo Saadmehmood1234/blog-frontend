@@ -27,17 +27,19 @@ export default function SigninPage() {
           body: JSON.stringify({ email, password }),
         },
       );
-      if (!res.ok) {
-        setLoading(false);
-        toast.error("Error during sigin");
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        toast.error(data.message || "Login failed");
         return;
       }
-      setLoading(false);
-      setLoading(false);
+      if (data.message?.toLowerCase().includes("verification email resent")) {
+        toast.success(data.message);
+        return;
+      }
       setEmail("");
       setPassowrd("");
 
-      toast.success("Login Successfully!");
+      toast.success(data.message || "Login successful");
       router.push("/admin/analytics");
     } catch {
     } finally {

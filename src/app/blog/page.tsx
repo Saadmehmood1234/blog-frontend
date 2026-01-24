@@ -1,53 +1,59 @@
-"use client";
 import { BlogCard } from "@/components/BlogCard";
-import Loading from "./loading";
-import { fetchBlogCategory, fetchBlogsByFilter } from "@/lib/api";
-import generateQuery from "@/lib/GenerateQuery";
-import { BlogType, Category, QueryType } from "@/lib/Types";
-import { useEffect, useState } from "react";
+import { fetchBlogCategory, fetchBlogs } from "@/lib/api";
+import { BlogType } from "@/lib/Types";
+// import Loading from "./loading";
+// import { fetchBlogCategory, fetchBlogs, fetchBlogsByFilter } from "@/lib/api";
+// import generateQuery from "@/lib/GenerateQuery";
+// import { BlogType, Category, QueryType } from "@/lib/Types";
+// import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogType[] | null>([]);
-  const [category, setCategory] = useState<Category[] | null>([]);
-  const [loading, setLoading] = useState(false);
-  const [filterBlogs, setFilterBlogs] = useState<QueryType>({
-    title: "",
-    category: "",
-    tags: [],
-    readTime: "",
-    createdAt: "",
-    page: 1,
-  });
+export default async function Blog() {
+  // const [blogs, setBlogs] = useState<BlogType[] | null>([]);
+  // const [category, setCategory] = useState<Category[] | null>([]);
+  // const [loading, setLoading] = useState(false);
+  // const [filterBlogs, setFilterBlogs] = useState<QueryType>({
+  //   title: "",
+  //   category: "",
+  //   tags: [],
+  //   readTime: "",
+  //   createdAt: "",
+  //   page: 1,
+  // });
 
-  useEffect(() => {
-    const query = generateQuery(filterBlogs) as QueryType;
+  // useEffect(() => {
+  //   const query = generateQuery(filterBlogs) as QueryType;
 
-    async function fetchAll() {
-      setLoading(true);
-      try {
-        const [blogsRes, categoryRes] = await Promise.all([
-          fetchBlogsByFilter(query),
-          fetchBlogCategory(),
-        ]);
-        setCategory(categoryRes.data);
-        setBlogs(blogsRes.data.filter((d: BlogType) => !d.isFeatured));
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-        setBlogs([]);
-        setCategory([]);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //   async function fetchAll() {
+  //     setLoading(true);
+  //     try {
+  //       const [blogsRes, categoryRes] = await Promise.all([
+  //         fetchBlogsByFilter(query),
+  //         fetchBlogCategory(),
+  //       ]);
+  //       setCategory(categoryRes.data);
+  //       setBlogs(blogsRes.data.filter((d: BlogType) => !d.isFeatured));
+  //     } catch (error) {
+  //       console.error("Failed to fetch data:", error);
+  //       setBlogs([]);
+  //       setCategory([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchAll();
-  }, [filterBlogs]);
+  //   fetchAll();
+  // }, [filterBlogs]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
+  // if (loading) {
+  //   return <Loading />;
+  // }
+  const [blogsData, categoryData] = await Promise.all([
+    fetchBlogs(),
+    fetchBlogCategory(),
+  ]);
+  const blogs = blogsData.data.filter((blog:BlogType)=>!blog.isFeatured);
+  const category = categoryData.data;
   if (!blogs || blogs.length === 0) {
     return (
       <div className="flex items-center justify-center w-full min-h-75 text-muted-foreground">
@@ -62,7 +68,9 @@ export default function Blog() {
         {category &&
           category?.map((cat) => (
             <Link href={`/category/${cat.slug}`} key={cat._id}>
-              <span className="border-input border-2 hover:bg-secondary px-4 py-2 rounded-full text-center cursor-pointer">{cat.name}</span>
+              <span className="border-input border-2 hover:bg-secondary px-4 py-2 rounded-full text-center cursor-pointer">
+                {cat.name}
+              </span>
             </Link>
           ))}
       </div>

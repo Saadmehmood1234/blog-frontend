@@ -5,7 +5,9 @@ import {
   BlogType,
   Category,
   DashboardStats,
-} from "./Types";
+  ResponseType,
+  GetSubscriberResponse,
+} from "@/types/Types";
 import safeJson from "./SafeJson";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -70,15 +72,18 @@ export async function createSubscriber(
   return await safeJson<SubscribeResponse>(res);
 }
 
-export async function getSubscriber(): Promise<SubscribeResponse | null> {
+export async function fetchSubscriber(): Promise<GetSubscriberResponse | null> {
   const res = await fetch(`${API_URL}/api/v1/subscribe`);
-  return await safeJson<SubscribeResponse>(res);
+  const result = await safeJson<GetSubscriberResponse>(res);
+
+  return result ?? null;
 }
+
 
 export async function createBlogs(
   data: FormData,
 ): Promise<ApiResponse<BlogType> | null> {
-   for (const [key, value] of data.entries()) {
+  for (const [key, value] of data.entries()) {
     console.log(key, value);
   }
 
@@ -106,3 +111,37 @@ export async function fetchDashboardStats(): Promise<DashboardStats | null> {
 
   return await safeJson<DashboardStats>(res);
 }
+
+export async function logout() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/signout`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Failed to logout");
+  }
+  return await safeJson<ResponseType>(res);
+}
+
+export async function deleteBlog(id: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs/${id}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Error in deleting the blog");
+  }
+  return await safeJson<ResponseType>(res);
+}
+
+
+

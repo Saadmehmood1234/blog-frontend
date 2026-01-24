@@ -18,7 +18,7 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
   if (!blog) {
     return (
       <div className="min-h-screen flex flex-col font-sans">
-        <main className="grow container mx-auto px-6 max-w-7xl pt-8 pb-20">
+        <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-8 pb-20">
           <div className="text-center">
             <h1 className="text-4xl font-display font-black mb-4"></h1>
             <p className="text-muted-foreground"></p>
@@ -31,7 +31,7 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
-      <main className="grow container mx-auto px-6 max-w-7xl pt-8 pb-20">
+      <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-8 pb-20">
         <div className="grid lg:grid-cols-12 gap-12">
           <article className="lg:col-span-8">
             <header className="mb-8">

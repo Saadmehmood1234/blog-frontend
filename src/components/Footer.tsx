@@ -1,6 +1,6 @@
 "use client";
 import { fetchBlogCategory } from "@/lib/api";
-import { Category } from "@/lib/Types";
+import { Category } from "@/types/Types";
 import { Github, InstagramIcon, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import Subscribe from "./Subscribe";
@@ -39,7 +39,7 @@ export function Footer() {
   }
   return (
     <footer className="border-t border-border mt-20 py-12 bg-secondary/20">
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className="container mx-auto px-6 2xl:px-0 max-w-7xl">
         <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-8 mb-12">
           <div className="col-span-1 md:col-span-1">
             <Link
@@ -49,7 +49,7 @@ export function Footer() {
               <Image src="/logo.png" width={60} height={60} alt="DailyTech." />
             </Link>
 
-            <p className="text-sm pl-1 text-muted-foreground leading-relaxed">
+            <p className="text-sm pt-2 pl-1 text-muted-foreground leading-relaxed">
               Explore the latest insights, trends, and articles on artificial
               intelligence, digital technologies, and emerging tech innovations.
             </p>
@@ -103,7 +103,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border/50 pt-8 flex flex-col md:flex-row justify-between items-center text-md text-muted-foreground">
-          <p>© 2024 Scribe Platform. All rights reserved.</p>
+          <p>© 2025 DailyTech Platform. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a
               href="https://x.com/SaadMeh97739578"

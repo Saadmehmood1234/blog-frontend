@@ -18,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar/>
+        <div className="flex flex-col justify-center items-center">
+          <Navbar />
+        </div>
         <main className="min-h-screen">{children}</main>
-        <Toaster/>
+        <Toaster />
         <Footer />
       </body>
     </html>

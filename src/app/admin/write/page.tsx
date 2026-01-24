@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Category } from "@/lib/Types";
+import { Category } from "@/types/Types";
 import {
   Select,
   SelectContent,
@@ -86,9 +86,9 @@ export default function Write() {
       <main className="grow container mx-auto px-6 max-w-4xl pt-10 pb-20">
         <div className="mb-10">
           <h1 className="text-3xl font-display font-bold">Write a new story</h1>
-          <p className="text-muted-foreground mt-2">
+          {/* <p className="text-muted-foreground mt-2">
             Share your thoughts with the world.
-          </p>
+          </p> */}
         </div>
 
         <form

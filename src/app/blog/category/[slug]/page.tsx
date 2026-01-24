@@ -1,7 +1,7 @@
 import { BlogCard } from "@/components/BlogCard";
 import { Badge } from "@/components/ui/badge";
 import { fetchBlogCategoryBySlug } from "@/lib/api";
-import { BlogType } from "@/lib/Types";
+import { BlogType } from "@/types/Types";
 import NoBlogs from "@/components/NoBlogs";
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -13,7 +13,7 @@ export default async function CategoryPage({ params }: BlogDetailPageProps) {
   if (!BlogData) {
     return (
       <div className="min-h-screen flex flex-col bg-background font-sans">
-        <main className="grow container mx-auto px-6 max-w-7xl pt-12 pb-20">
+        <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-12 pb-20">
           <NoBlogs
             title="Category not found"
             description="The category you're looking for doesn't exist."
@@ -31,7 +31,7 @@ export default async function CategoryPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans">
-      <main className="grow container mx-auto px-6 max-w-7xl pt-12 pb-20">
+      <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-12 pb-20">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Badge
             variant="outline"

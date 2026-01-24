@@ -29,19 +29,21 @@ export default function SignupPage() {
           body: JSON.stringify({ email, password, name }),
         },
       );
+      const data = await res.json();
       if (!res.ok) {
-        setLoading(false);
-        const message=await res.json()
-        console.log(message.data)
-        toast.error("Error during sigin");
-        return;
+        if (!res.ok || !data.success) {
+          toast.error(data.message || "Signup failed");
+          return;
+        }
       }
       setLoading(false);
       setEmail("");
       setName("");
       setPassowrd("");
-      toast.success("Login Successfully!");
-      router.push("/admin/analytics");
+      toast.success(
+        "Account created. Please check your email to verify your account.",
+      );
+      router.push("/admin/auth/signin");
     } catch {
     } finally {
       setLoading(false);
