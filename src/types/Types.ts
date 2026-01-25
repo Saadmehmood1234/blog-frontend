@@ -19,7 +19,9 @@ export interface User {
 // lib/types.ts
 export interface Category {
   name: string;
+  description?: string;
   slug: string;
+  totalCategory?: number;
 }
 
 export interface BlogType {
@@ -94,6 +96,7 @@ export interface DailyView {
 export interface DashboardStats {
   totalBlogs: number;
   totalViews: number;
+  totalCategory:number;
   topBlogs: TopBlog[];
   dailyViews: DailyView[];
 }
@@ -114,4 +117,3 @@ export interface GetSubscriberResponse {
   message: string;
   data: Subscriber[];
 }
-

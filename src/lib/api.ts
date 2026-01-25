@@ -79,7 +79,6 @@ export async function fetchSubscriber(): Promise<GetSubscriberResponse | null> {
   return result ?? null;
 }
 
-
 export async function createBlogs(
   data: FormData,
 ): Promise<ApiResponse<BlogType> | null> {
@@ -104,10 +103,10 @@ export async function fetchDashboardStats(): Promise<DashboardStats | null> {
   const res = await fetch(`${API_URL}/api/v1/analytics/dashboard-stats`, {
     cache: "no-store",
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch analytics");
-  }
+console.log("Response", res)
+  // if (!res.ok) {
+  //   throw new Error("Failed to fetch analytics");
+  // }
 
   return await safeJson<DashboardStats>(res);
 }
@@ -143,5 +142,22 @@ export async function deleteBlog(id: string) {
   return await safeJson<ResponseType>(res);
 }
 
+export async function createCategory(
+  data: FormData,
+): Promise<ApiResponse<Category> | null> {
+  for (const [key, value] of data.entries()) {
+    console.log(key, value);
+  }
 
+  const res = await fetch(`${API_URL}/api/v1/categories`, {
+    method: "POST",
+    credentials: "include",
+    body: data,
+  });
 
+  if (!res.ok) {
+    throw new Error("Failed to create Category");
+  }
+
+  return await safeJson<ApiResponse<Category>>(res);
+}

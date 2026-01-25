@@ -16,6 +16,7 @@ export const BlogDashBoard = () => {
       try {
         setLoading(true);
         const data = await fetchBlogs();
+        console.log("Data",data)
         if (data?.success) {
           setBlogs(data.data);
           setLoading(false);
