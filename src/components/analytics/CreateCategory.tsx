@@ -63,6 +63,7 @@ const CreateCategory = ({ setIsOpen }: CreateCategoryProps) => {
             <Label>Category Name</Label>
             <Input
               value={category.name}
+              required
               onChange={(e) =>
                 setCategory({ ...category, name: e.target.value })
               }
@@ -74,6 +75,7 @@ const CreateCategory = ({ setIsOpen }: CreateCategoryProps) => {
             <Label>Category Description</Label>
             <Input
               value={category.description}
+              required
               onChange={(e) =>
                 setCategory({ ...category, description: e.target.value })
               }

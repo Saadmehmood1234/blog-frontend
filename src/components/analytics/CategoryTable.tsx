@@ -31,8 +31,11 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, Trash } from "lucide-react";
 import { Category } from "@/types/Types";
+import { DropdownMenuItem, DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
+import { deleteCategory } from "@/lib/api";
+import toast from "react-hot-toast";
 
 type CategoriesPropType = {
   data: Category[];
@@ -121,28 +124,48 @@ export const columns: ColumnDef<Category>[] = [
     ),
   },
 
-  //   {
-  //     id: "actions",
-  //     enableHiding: false,
-  //     cell: ({ row }) => {
-  //       return (
-  //         <div className="flex justify-center">
-  //           <DropdownMenu>
-  //             <DropdownMenuTrigger asChild>
-  //               <Button variant="ghost" className="h-8 cursor-pointer w-8 p-0">
-  //                 <MoreHorizontal />
-  //               </Button>
-  //             </DropdownMenuTrigger>
+ {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const category = row.original;
+      
+      const handleDelete = async (id: string) => {
+        try {
+          const deleted = await deleteCategory(id);
+          if (deleted?.success) {
+            toast.success(deleted.message);
 
-  //             <DropdownMenuContent align="end">
-  //               <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            return;
+          }
+          toast.error("Error in deleting the Category");
+        } catch {
+          toast.error("Error in deleting the Category");
+        }
+      };
+      return (
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 cursor-pointer w-8 p-0">
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
 
-  //             </DropdownMenuContent>
-  //           </DropdownMenu>
-  //         </div>
-  //       );
-  //     },
-  //   },
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <button className="inline-flex gap-1 hover:bg-accent w-full justify-start items-center outline-none" onClick={() => handleDelete(category._id)}>
+                  <span>Delete</span> <Trash size={14}/>
+                </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
 ];
 
 export function CategoryTable({ data }: CategoriesPropType) {

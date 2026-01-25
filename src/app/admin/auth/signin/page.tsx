@@ -14,6 +14,10 @@ export default function SigninPage() {
     e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("Email and Password are required!");
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch(
@@ -63,6 +67,7 @@ export default function SigninPage() {
               type="email"
               placeholder="you@example.com"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
             />
@@ -74,6 +79,7 @@ export default function SigninPage() {
               onChange={(e) => setPassowrd(e.target.value)}
               type="password"
               value={password}
+              required
               placeholder="••••••••"
               className="mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
             />

@@ -161,3 +161,18 @@ export async function createCategory(
 
   return await safeJson<ApiResponse<Category>>(res);
 }
+
+
+export async function deleteCategory(id: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories/${id}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Error in deleting the blog");
+  }
+  return await safeJson<ResponseType>(res);
+}

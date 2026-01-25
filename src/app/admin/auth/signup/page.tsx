@@ -16,6 +16,10 @@ export default function SignupPage() {
     e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
+    if (email.trim() === "" || password.trim() === "" || name.trim() === "") {
+      toast.error("All fields are required!");
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch(
@@ -67,6 +71,7 @@ export default function SignupPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Saad Mehmood"
+              required
               className="mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
@@ -76,6 +81,7 @@ export default function SignupPage() {
             <input
               type="email"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
@@ -87,6 +93,7 @@ export default function SignupPage() {
             <input
               type="password"
               value={password}
+              required
               onChange={(e) => setPassowrd(e.target.value)}
               placeholder="••••••••"
               className="mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"

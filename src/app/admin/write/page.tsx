@@ -102,6 +102,7 @@ export default function Write() {
               placeholder="Enter a captivating title..."
               className="text-lg font-medium"
               value={formData.title}
+              required
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
@@ -113,6 +114,7 @@ export default function Write() {
               <Label htmlFor="category">Category</Label>
               <Select
                 value={formData.categoryId}
+                required
                 onValueChange={(val) =>
                   setFormData({ ...formData, categoryId: val })
                 }
@@ -162,6 +164,7 @@ export default function Write() {
             <Input
               id="image"
               type="file"
+              required
               placeholder="https://images.unsplash.com/..."
               accept="image/*"
               onChange={(e) => {
@@ -179,6 +182,7 @@ export default function Write() {
             <Label htmlFor="excerpt">Excerpt</Label>
             <Textarea
               id="excerpt"
+              required
               placeholder="A short summary of your post..."
               className="h-20 resize-none"
               value={formData.excerpt}
@@ -192,6 +196,7 @@ export default function Write() {
             <Label htmlFor="content">Content (Markdown supported)</Label>
             <Textarea
               id="content"
+              required
               placeholder="Start writing your story..."
               className="min-h-100 font-mono text-sm leading-relaxed"
               value={formData.content}
@@ -205,6 +210,7 @@ export default function Write() {
               <Label>SEO Title</Label>
               <Input
                 placeholder="SEO optimized title"
+                required
                 value={formData.seoTitle}
                 onChange={(e) =>
                   setFormData({ ...formData, seoTitle: e.target.value })
@@ -216,6 +222,7 @@ export default function Write() {
               <Label>SEO Description</Label>
               <Input
                 placeholder="SEO description"
+                required
                 value={formData.seoDescription}
                 onChange={(e) =>
                   setFormData({ ...formData, seoDescription: e.target.value })
