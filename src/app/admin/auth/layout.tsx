@@ -7,7 +7,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const user = await getCookies();
-  console.log("Usser",user)
   if (user) {
     redirect("/admin/analytics");
   }

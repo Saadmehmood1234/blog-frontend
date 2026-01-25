@@ -6,14 +6,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCookies();
-    console.log("Usser",user)
+  // const user = await getCookies();
+  //   console.log("Usser",user)
 
-  if (!user) {
-    redirect("/admin/auth/signin");
-  }
-  if (user.role !== "admin") {
-    redirect("/admin/auth/signin");
-  }
+  // if (!user) {
+  //   redirect("/admin/auth/signin");
+  // }
+  // if (user.role !== "admin") {
+  //   redirect("/admin/auth/signin");
+  // }
   return <div>{children}</div>;
 }
