@@ -22,11 +22,21 @@
 // };
 
 
+import { cookies } from "next/headers";
+
 export const getCurrentUser = async () => {
+  const cookieStore =await cookies();
+  const cookieHeader = cookieStore
+    .getAll()
+    .map(c => `${c.name}=${c.value}`)
+    .join("; ");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/me`,
     {
-      credentials: "include",
+      headers: {
+        cookie: cookieHeader,
+      },
       cache: "no-store",
     }
   );
@@ -36,3 +46,4 @@ export const getCurrentUser = async () => {
   const data = await res.json();
   return data.user;
 };
+
