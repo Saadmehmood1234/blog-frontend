@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Menu,
-  Search,
-  ChevronDown,
-} from "lucide-react";
+import { Menu, Search, ChevronDown, ChartSpline } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -25,7 +21,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BlogType,Category } from "@/types/Types";
+import { BlogType, Category } from "@/types/Types";
 import { useDebounce } from "@/hooks/useDebounce";
 import Image from "next/image";
 
@@ -163,6 +159,7 @@ export default function NavbarClient({ categories }: Props) {
             Write
           </Button>
         </Link>
+        */}
         <Link href="/admin/analytics">
           <Button
             size="sm"
@@ -171,7 +168,7 @@ export default function NavbarClient({ categories }: Props) {
             <ChartSpline className="h-4 w-4" />
             Analytics
           </Button>
-        </Link> */}
+        </Link>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button
@@ -213,12 +210,13 @@ export default function NavbarClient({ categories }: Props) {
                   Start Writing
                 </Button>
               </Link>
+              */}
               <Link href="/admin/analytics">
                 <Button className="w-full rounded-full cursor-pointer gap-2">
                   <ChartSpline className="h-4 w-4" />
                   Analytics
                 </Button>
-              </Link> */}
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
