@@ -14,7 +14,7 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
   const { slug } = await params;
 
   const blog = await fetchBlogBySlug(slug);
-  
+
   if (!blog) {
     return (
       <div className="min-h-screen flex flex-col font-sans">
@@ -23,7 +23,10 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
             <h1 className="text-4xl font-display font-black mb-4"></h1>
             <p className="text-muted-foreground"></p>
           </div>
-          <NoBlogs title="Blog not found" description="The article you&re looking for doesn&t exist."/>
+          <NoBlogs
+            title="Blog not found"
+            description="The article you&re looking for doesn&t exist."
+          />
         </main>
       </div>
     );
@@ -84,19 +87,21 @@ export default async function BlogDetail({ params }: BlogDetailPageProps) {
                 </div>
               </div>
             </header>
-            <div className="aspect-2/1 bg-primary/10 rounded-2xl overflow-hidden mb-10 shadow-lg shadow-black/5">
+            <div className="relative aspect-2/1 bg-primary/10 rounded-2xl overflow-hidden mb-10 shadow-lg shadow-black/5">
               <Image
-                height={100}
-                width={100}
                 src={
                   blog.data.featuredImage ||
-                  "https://images.unsplash.com/photo-1499750310159-525446b0d568?w=1200&q=80"
+                  "https://images.unsplash.com/photo-1499750310159-525446b0d568?w=2000&q=80"
                 }
                 alt={blog.data.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 80vw"
+                className="object-cover"
+                priority
               />
             </div>
-            <MarkdownRenderer content={blog.data.content}/>
+
+            <MarkdownRenderer content={blog.data.content} />
             {blog.data.tags && blog.data.tags.length > 0 && (
               <div className="mt-12 pt-8 border-t border-border">
                 <h4 className="font-bold text-sm uppercase tracking-wide text-muted-foreground mb-4">

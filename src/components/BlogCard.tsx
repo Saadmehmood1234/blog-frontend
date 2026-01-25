@@ -15,18 +15,20 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
     return (
       <Link href={`/blog/${blog.slug}`} className="group block">
         <article className="grid md:grid-cols-2 gap-8 items-center cursor-pointer">
-          <div className="aspect-16/10 overflow-hidden rounded-2xl bg-muted shadow-sm group-hover:shadow-md transition-all duration-300">
+          <div className="relative aspect-16/10 overflow-hidden rounded-2xl bg-muted shadow-sm group-hover:shadow-md transition-all duration-300">
             <Image
-              width={100}
-              height={100}
               src={
                 blog.featuredImage ||
-                "https://images.unsplash.com/photo-1499750310159-525446b0d568?w=800&q=80"
+                "https://images.unsplash.com/photo-1499750310159-525446b0d568?w=1600&q=80"
               }
               alt={blog.title}
-              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+              priority
             />
           </div>
+
           <div className="space-y-4">
             {blog.category && (
               <Badge
