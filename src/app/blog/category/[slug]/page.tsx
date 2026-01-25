@@ -10,13 +10,13 @@ export default async function CategoryPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
   const BlogData = await fetchBlogCategoryBySlug(slug);
 
-  if (!BlogData) {
+  if (!BlogData || BlogData.data.length) {
     return (
-      <div className="min-h-screen flex flex-col bg-background font-sans">
-        <main className="grow container mx-auto px-6 2xl:px-0 max-w-7xl pt-12 pb-20">
+      <div className="min-h-screen justify-center items-center w-full flex flex-col bg-background font-sans">
+        <main className="grow containerz mx-auto px-6 2xl:px-0 max-w-7xl pt-12 pb-20">
           <NoBlogs
-            title="Category not found"
-            description="The category you're looking for doesn't exist."
+            title="No posts found in this category."
+            description="Check back later for new content."
           />
         </main>
       </div>
@@ -51,16 +51,11 @@ export default async function CategoryPage({ params }: BlogDetailPageProps) {
         <div
           className={`${nonFeaturedBlogs ? "grid md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12" : ""}`}
         >
-          {nonFeaturedBlogs && nonFeaturedBlogs.length > 0 ? (
+          {nonFeaturedBlogs &&
+            nonFeaturedBlogs.length > 0 &&
             nonFeaturedBlogs.map((blog: BlogType) => (
               <BlogCard key={blog._id} blog={blog} />
-            ))
-          ) : (
-            <NoBlogs
-              title="No posts found in this category."
-              description="Check back later for new content."
-            />
-          )}
+            ))}
         </div>
       </main>
     </div>
