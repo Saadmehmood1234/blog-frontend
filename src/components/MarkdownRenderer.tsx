@@ -51,26 +51,28 @@ const markdownComponents: Components = {
 
   /* -------- Images -------- */
 
-img: ({ src, alt }) => {
-  const imageSrc =
-    src instanceof Blob ? URL.createObjectURL(src) : src;
+  img: ({ src, alt }) => {
+    const imageSrc = src instanceof Blob ? URL.createObjectURL(src) : src;
 
-  return (
-    <figure className="my-10">
-      <Image
-        src={imageSrc || ""}
-        alt={alt || ""}
-        className="mx-auto rounded-xl shadow-lg max-w-full"
-      />
-      {alt && (
-        <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-          {alt}
-        </figcaption>
-      )}
-    </figure>
-  );
-},
+    return (
+      <figure className="my-10">
+        <Image
+          src={imageSrc || ""}
+          alt={alt || ""}
+          width={800}
+          height={500}
+          className="mx-auto rounded-xl shadow-lg max-w-full"
+          priority
+        />
 
+        {alt && (
+          <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+            {alt}
+          </figcaption>
+        )}
+      </figure>
+    );
+  },
 
   /* -------- Blockquote / Callouts -------- */
 
