@@ -10,6 +10,7 @@ type JwtPayload = {
 
 export const getCookies = async () => {
   const token = (await cookies()).get("jwt")?.value;
+  console.error("Production",token)
   if (!token) {
     return null;
   }
