@@ -160,7 +160,7 @@ export default function NavbarClient({ categories }: Props) {
           </Button>
         </Link>
         */}
-        {/* <Link href="/admin/analytics">
+        <Link href="/admin/analytics">
           <Button
             size="sm"
             className="hidden cursor-pointer sm:flex gap-2 rounded-full"
@@ -168,7 +168,7 @@ export default function NavbarClient({ categories }: Props) {
             <ChartSpline className="h-4 w-4" />
             Analytics
           </Button>
-        </Link> */}
+        </Link>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button
@@ -211,12 +211,12 @@ export default function NavbarClient({ categories }: Props) {
                 </Button>
               </Link>
               */}
-              <Link href="/admin/analytics">
+              {/* <Link href="/admin/analytics">
                 <Button className="w-full rounded-full cursor-pointer gap-2">
                   <ChartSpline className="h-4 w-4" />
                   Analytics
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </SheetContent>
         </Sheet>
