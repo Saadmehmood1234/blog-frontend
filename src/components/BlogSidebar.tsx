@@ -16,7 +16,7 @@ export async function BlogSidebar() {
       .slice(0, 3) ?? [];
 
   return (
-    <aside className="space-y-10 sticky top-24">
+    <aside className="space-y-10 sticky -z-10 top-24">
       <div className="bg-card rounded-xl p-6 border border-border/50 shadow-sm">
         <h3 className="font-display font-bold text-lg mb-4">Topics</h3>
         <div className="flex flex-wrap gap-2">

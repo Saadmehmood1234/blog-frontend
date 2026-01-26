@@ -132,7 +132,7 @@ export default function NavbarClient({ categories }: Props) {
           />
 
           {suggestions.length > 0 && (
-            <div className="absolute top-full mt-2 w-full bg-background border rounded-md shadow-lg z-50">
+            <div className="absolute top-full mt-2 w-full bg-background border rounded-md shadow-lg z-99">
               {suggestions.map((blog) => (
                 <Link
                   key={blog._id}
