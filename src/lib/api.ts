@@ -199,3 +199,34 @@ export async function deleteCategory(id: string) {
   }
   return await safeJson<ResponseType>(res);
 }
+
+export async function updateBlog(
+  id: string,
+  data: {
+    title: string;
+    slug: string;
+    content: string;
+    excerpt: string;
+    category: string;
+    tags: string[];
+    seoTitle: string;
+    seoDescription: string;
+    readTime: number;
+  },
+): Promise<ApiResponse<BlogType> | null> {
+  const res = await fetch(`${API_URL}/api/v1/blogs/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  const result = await safeJson<ApiResponse<BlogType>>(res);
+  if (!res.ok) {
+    throw new Error(result?.message || "Failed to update blog");
+  }
+
+  return result;
+}

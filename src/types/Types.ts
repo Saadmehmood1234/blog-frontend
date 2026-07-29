@@ -37,6 +37,8 @@ export interface BlogType {
   isFeatured: boolean;
   createdAt: string;
   readTime: number;
+  seoTitle: string;
+  seoDescription: string;
 }
 
 export interface BlogViewsResponse {
