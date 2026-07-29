@@ -1,10 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+
+const nextConfig: NextConfig = {
   experimental: {
-    modern: true,
+    // ⚠️ modern is deprecated in newer Next.js
+    // remove if you’re on Next 14+
   },
+
   images: {
-    
     remotePatterns: [
       {
         protocol: "https",
@@ -16,13 +20,21 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "**",
-      },
     ],
   },
+
   reactCompiler: true,
+
+  async rewrites() {
+    if (!backendUrl) return [];
+
+    return [
+      {
+        source: "/backend-api/:path*",
+        destination: `${backendUrl}/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

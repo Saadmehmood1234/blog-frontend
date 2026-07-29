@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/lib/ApiBaseUrl";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function SigninPage() {
     try {
       setLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/signin`,
+        `${API_BASE_URL}/api/v1/auth/signin`,
         {
           method: "POST",
           headers: {

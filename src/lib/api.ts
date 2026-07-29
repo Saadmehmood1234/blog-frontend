@@ -9,8 +9,9 @@ import {
   GetSubscriberResponse,
 } from "@/types/Types";
 import safeJson from "./SafeJson";
+import { API_BASE_URL } from "./ApiBaseUrl";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = API_BASE_URL;
 
 export const fetchBlogs = async (): Promise<ApiResponse<BlogType[]>> => {
   const res = await fetch(`${API_URL}/api/v1/blogs`);
@@ -73,7 +74,9 @@ export async function createSubscriber(
 }
 
 export async function fetchSubscriber(): Promise<GetSubscriberResponse | null> {
-  const res = await fetch(`${API_URL}/api/v1/subscribe`);
+  const res = await fetch(`${API_URL}/api/v1/subscribe`, {
+    credentials: "include",
+  });
   const result = await safeJson<GetSubscriberResponse>(res);
 
   return result ?? null;
@@ -99,21 +102,23 @@ export async function createBlogs(
   return await safeJson<ApiResponse<BlogType>>(res);
 }
 
-export async function fetchDashboardStats(): Promise<DashboardStats | null> {
+export async function fetchDashboardStats(
+  cookieHeader?: string,
+): Promise<DashboardStats | null> {
   const res = await fetch(`${API_URL}/api/v1/analytics/dashboard-stats`, {
     cache: "no-store",
+    headers: cookieHeader ? { cookie: cookieHeader } : undefined,
+    credentials: "include",
   });
-console.log("Response", res)
-  // if (!res.ok) {
-  //   throw new Error("Failed to fetch analytics");
-  // }
+
+  if (!res.ok) return null;
 
   return await safeJson<DashboardStats>(res);
 }
 
 export async function logout() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/signout`,
+    `${API_URL}/api/v1/auth/signout`,
     {
       method: "POST",
       headers: {
@@ -130,7 +135,7 @@ export async function logout() {
 
 export async function deleteBlog(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs/${id}`,
+    `${API_URL}/api/v1/blogs/${id}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -165,7 +170,7 @@ export async function createCategory(
 
 export async function deleteCategory(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories/${id}`,
+    `${API_URL}/api/v1/categories/${id}`,
     {
       method: "DELETE",
       credentials: "include",

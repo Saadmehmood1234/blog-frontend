@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Search, ChevronDown, ChartSpline } from "lucide-react";
+import { Menu, Search, ChevronDown, ChartSpline, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { BlogType, Category } from "@/types/Types";
 import { useDebounce } from "@/hooks/useDebounce";
 import Image from "next/image";
+import { API_BASE_URL } from "@/lib/ApiBaseUrl";
 
 type Props = {
   categories: Category[];
@@ -44,7 +45,7 @@ export default function NavbarClient({ categories }: Props) {
     const fetchSuggestions = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?search=${debouncedQuery}&limit=5`,
+          `${API_BASE_URL}/api/v1/blogs?search=${debouncedQuery}&limit=5`,
           { signal: controller.signal },
         );
         const data = await res.json();
@@ -165,8 +166,8 @@ export default function NavbarClient({ categories }: Props) {
             size="sm"
             className="hidden cursor-pointer sm:flex gap-2 rounded-full"
           >
-            <ChartSpline className="h-4 w-4" />
-            Analytics
+            <LogIn className="h-4 w-4" />
+            Login
           </Button>
         </Link>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>

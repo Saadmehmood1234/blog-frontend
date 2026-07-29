@@ -65,7 +65,7 @@ export const Home = async () => {
               </Link>
             </div>
           </div>
-          <div className="lg:col-span-4 hidden lg:block">
+          <div className="lg:col-span-4  hidden lg:block">
             <BlogSidebar />
           </div>
         </div>

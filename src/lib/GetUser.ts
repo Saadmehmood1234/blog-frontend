@@ -23,27 +23,36 @@
 
 
 import { cookies } from "next/headers";
+import { API_BASE_URL } from "./ApiBaseUrl";
 
 export const getCurrentUser = async () => {
-  const cookieStore =await cookies();
+  const cookieStore = await cookies();
   const cookieHeader = cookieStore
     .getAll()
-    .map(c => `${c.name}=${c.value}`)
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join("; ");
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/me`,
-    {
-      headers: {
-        cookie: cookieHeader,
+  if (!cookieHeader || !API_BASE_URL) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/v1/auth/me`,
+      {
+        headers: {
+          cookie: cookieHeader,
+        },
+        cache: "no-store",
       },
-      cache: "no-store",
-    }
-  );
+    );
 
-  if (!res.ok) return null;
+    if (!res.ok) return null;
 
-  const data = await res.json();
-  return data.user;
+    const data = await res.json();
+    return data.user ?? null;
+  } catch {
+    return null;
+  }
 };
 

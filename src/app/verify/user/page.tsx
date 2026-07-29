@@ -3,6 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, Suspense } from "react";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "@/lib/ApiBaseUrl";
 
 const VerifyContent = () => {
   const searchParams = useSearchParams();
@@ -21,9 +22,13 @@ const VerifyContent = () => {
 
     const verifyEmail = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verify?token=${token}`, {
-          method: "GET",
-        });
+        const res = await fetch(
+          `${API_BASE_URL}/api/v1/auth/verify?token=${token}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
 
         const text = await res.text();
         let data;
