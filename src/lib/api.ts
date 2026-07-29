@@ -22,6 +22,27 @@ export const fetchBlogs = async (): Promise<ApiResponse<BlogType[]>> => {
   return { data: [] };
 };
 
+export const fetchAllBlogs = async (): Promise<BlogType[]> => {
+  const blogs: BlogType[] = [];
+
+  for (let page = 1; page <= 100; page += 1) {
+    const res = await fetch(`${API_URL}/api/v1/blogs?page=${page}`, {
+      cache: "no-store",
+      credentials: "include",
+    });
+    const result = await safeJson<ApiResponse<BlogType[]>>(res);
+
+    if (!res.ok || !result?.data) {
+      throw new Error("Failed to fetch blog views");
+    }
+
+    blogs.push(...result.data);
+    if (result.data.length < 10) break;
+  }
+
+  return blogs;
+};
+
 export const fetchBlogBySlug = async (
   slug: string,
 ): Promise<ApiResponse<BlogType> | null> => {
@@ -117,16 +138,13 @@ export async function fetchDashboardStats(
 }
 
 export async function logout() {
-  const res = await fetch(
-    `${API_URL}/api/v1/auth/signout`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+  const res = await fetch("/api/session/signout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    credentials: "include",
+  });
   if (!res.ok) {
     throw new Error("Failed to logout");
   }

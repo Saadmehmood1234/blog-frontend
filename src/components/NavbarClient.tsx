@@ -1,6 +1,12 @@
 "use client";
 
-import { Menu, Search, ChevronDown, ChartSpline, LogIn } from "lucide-react";
+import {
+  Menu,
+  Search,
+  ChevronDown,
+  LayoutDashboard,
+  LogIn,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -28,9 +34,13 @@ import { API_BASE_URL } from "@/lib/ApiBaseUrl";
 
 type Props = {
   categories: Category[];
+  isAuthenticated: boolean;
 };
 
-export default function NavbarClient({ categories }: Props) {
+export default function NavbarClient({
+  categories,
+  isAuthenticated,
+}: Props) {
   const location = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -161,13 +171,21 @@ export default function NavbarClient({ categories }: Props) {
           </Button>
         </Link>
         */}
-        <Link href="/admin/analytics">
+        <Link
+          href={
+            isAuthenticated ? "/admin/analytics" : "/admin/auth/signin"
+          }
+        >
           <Button
             size="sm"
             className="hidden cursor-pointer sm:flex gap-2 rounded-full"
           >
-            <LogIn className="h-4 w-4" />
-            Login
+            {isAuthenticated ? (
+              <LayoutDashboard className="h-4 w-4" />
+            ) : (
+              <LogIn className="h-4 w-4" />
+            )}
+            {isAuthenticated ? "Dashboard" : "Login"}
           </Button>
         </Link>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -205,6 +223,23 @@ export default function NavbarClient({ categories }: Props) {
                 </Link>
               ))}
               <div className="h-px bg-border my-2" />
+              <Link
+                href={
+                  isAuthenticated
+                    ? "/admin/analytics"
+                    : "/admin/auth/signin"
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                <Button className="w-full rounded-full cursor-pointer gap-2">
+                  {isAuthenticated ? (
+                    <LayoutDashboard className="h-4 w-4" />
+                  ) : (
+                    <LogIn className="h-4 w-4" />
+                  )}
+                  {isAuthenticated ? "Dashboard" : "Login"}
+                </Button>
+              </Link>
               {/* <Link href="/write" onClick={() => setIsOpen(false)}>
                 <Button className="w-full rounded-full cursor-pointer gap-2">
                   <PenSquare className="h-4 w-4" />

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { API_BASE_URL } from "@/lib/ApiBaseUrl";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
@@ -21,17 +20,14 @@ export default function SigninPage() {
     }
     try {
       setLoading(true);
-      const res = await fetch(
-        `${API_BASE_URL}/api/v1/auth/signin`,
-        {
+      const res = await fetch("/api/session/signin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
           body: JSON.stringify({ email, password }),
-        },
-      );
+      });
       const data = await res.json();
       if (!res.ok || !data.success) {
         toast.error(data.message || "Login failed");
@@ -45,8 +41,10 @@ export default function SigninPage() {
       setPassowrd("");
 
       toast.success(data.message || "Login successful");
-      router.push("/admin/analytics");
+      router.replace("/admin/analytics");
+      router.refresh();
     } catch {
+      toast.error("Unable to connect to the login service");
     } finally {
       setLoading(false);
     }

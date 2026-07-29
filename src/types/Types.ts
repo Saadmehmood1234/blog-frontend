@@ -39,6 +39,11 @@ export interface BlogType {
   readTime: number;
 }
 
+export interface BlogViewsResponse {
+  success: boolean;
+  data: BlogType[];
+}
+
 export interface QueryType {
   title?: string;
   category?: string;

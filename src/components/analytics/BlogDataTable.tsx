@@ -86,7 +86,7 @@ export const columns: ColumnDef<BlogType>[] = [
     header: ({ column }) => (
       <Button
         variant="ghost"
-        className="px-0 cursor-pointer justify-start"
+        className="w-full px-0 cursor-pointer justify-end"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Title
@@ -123,8 +123,11 @@ export const columns: ColumnDef<BlogType>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue<number>("views")}
+      <div className="flex justify-end">
+        <span className="inline-flex min-w-16 items-center justify-end gap-1.5 rounded-full bg-primary/5 px-2.5 py-1 font-semibold text-primary">
+          <Eye className="h-3.5 w-3.5" />
+          {new Intl.NumberFormat().format(row.getValue<number>("views"))}
+        </span>
       </div>
     ),
   },
@@ -297,7 +300,7 @@ export function BlogDataTable({ data }: BlogPropType) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

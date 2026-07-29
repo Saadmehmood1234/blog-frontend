@@ -16,7 +16,6 @@ export const BlogDashBoard = () => {
       try {
         setLoading(true);
         const data = await fetchBlogs();
-        console.log("Data",data)
         if (data?.success) {
           setBlogs(data.data);
           setLoading(false);
@@ -40,5 +39,15 @@ export const BlogDashBoard = () => {
       />
     );
   }
-  return <BlogDataTable data={blogs} />;
+  return (
+    <section className="rounded-2xl border bg-card p-5 shadow-sm sm:p-6">
+      <div className="mb-2">
+        <h2 className="text-xl font-semibold">Blog library</h2>
+        <p className="text-sm text-muted-foreground">
+          Search, review, and manage your published content.
+        </p>
+      </div>
+      <BlogDataTable data={blogs} />
+    </section>
+  );
 };
